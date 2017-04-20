@@ -2,7 +2,9 @@ package com.example.rens.r_dpractical;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -23,10 +25,16 @@ public class Corner {
         }
 
         id = _id;
-
-        Log.d("LOG", "initialize");
         setOnOff(false);
 
+        DisplayMetrics d = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(d);
+        int size = Math.min(d.heightPixels,d.widthPixels) / 25;
+        view.setMinimumHeight(size);
+        view.setMinimumWidth(size);
+        //Log.d("LOG", )
+        //view.setMinimumHeight(view.getMinimumHeight() * size);
+        //view.setMinimumWidth(view.getMinimumWidth() * size);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,7 +47,6 @@ public class Corner {
     public void setOnOff(boolean opt){
         isOn = opt;
         int col = (opt)? 0xFFFFFFFF : 0xFF000000;
-        Log.d("LOG", "newCol " + col + " " + opt);
         view.setBackgroundColor(col);
     }
 
