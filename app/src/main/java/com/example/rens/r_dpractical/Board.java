@@ -9,10 +9,11 @@ import java.util.HashMap;
  * Created by Rens on 19-4-2017.
  */
 public class Board {
-    Corner[] corners;
-    HashMap<String, Side> sides;
-    Activity activity;
-    Block[] boxes;
+    private Corner[] corners;
+    private Corner current;
+    private HashMap<String, Side> sides;
+    private Activity activity;
+    private Block[] boxes;
 
     public Board(Activity _activity){
         activity = _activity;
@@ -22,8 +23,10 @@ public class Board {
         for(int i = 0; i < 25; i++) {
             String str = "corner" + (i+1);
             int resId = activity.getResources().getIdentifier(str, "id", activity.getPackageName());
-            corners[i] = new Corner(i+1, resId, activity);
+            corners[i] = new Corner(this, i+1, resId, activity);
         }
+        current = corners[24];
+        current.flip();
 
         //Boxes
         boxes = new Block[16];
@@ -49,5 +52,21 @@ public class Board {
                 sides.put(str, new Side(true, str, resId, activity));
             }
         }
+    }
+
+    public void update(Corner clicked){
+        if (clicked.isNeighbour(current) && clicked.getOn() != true){
+            Log.d("LOG", "isNeighour!");
+            clicked.flip();
+
+            String str = "side" + Math.min(clicked.getId(), current.getId()) + "_" + Math.max(clicked.getId(), current.getId());
+            sides.get(str).setOnOff(true);
+
+            current = clicked;
+        }
+        else{
+            Log.d("LOG", "isNOTneighour!");
+        }
+
     }
 }
