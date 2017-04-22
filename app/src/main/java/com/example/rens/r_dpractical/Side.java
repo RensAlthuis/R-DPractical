@@ -15,6 +15,13 @@ public class Side {
     private String id;
     private boolean isVert;
 
+    /**
+     * Constructor
+     * @param _isVert Side needs to know if it is a vertical or horizontal line
+     * @param str Identifying string
+     * @param resId to find the corresponding ImageView
+     * @param _activity containing activity
+     */
     public Side(boolean _isVert, String str, int resId, Activity _activity){
         id = str;
         activity = _activity;
@@ -33,6 +40,10 @@ public class Side {
         view.setMinimumWidth((isVert) ? s2 : s1);
     }
 
+    /**
+     * set on/off state
+     * @param opt true = on, false = off
+     */
     public void setOnOff(boolean opt){
         isOn = opt;
         int col = (opt)? 0xFFFFFFFF : 0xFF000000;

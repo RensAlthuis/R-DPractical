@@ -1,10 +1,12 @@
 package com.example.rens.r_dpractical;
 
 import android.app.Activity;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -17,6 +19,13 @@ public class Corner{
     public Activity activity;
     int id;
 
+    /**
+     * Constructor
+     * @param board containing board
+     * @param _id is number of corner on the board, for easy reference
+     * @param resId resource id, to get the corresponding ImageView
+     * @param _activity Containing activity
+     */
     public Corner(final Board board, int _id, final int resId, Activity _activity) {
         activity = _activity;
         view = ((ImageView) activity.findViewById(resId));
@@ -25,16 +34,37 @@ public class Corner{
         }
 
         id = _id;
+
+        //initialize to offState
         setOnOff(false);
 
+        //Scaling logic
         DisplayMetrics d = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(d);
+        // size is the screenWidth / some int
+        //TODO get rid of magic number and replace with some better logic allowing for different dimesions of boards
         int size = Math.min(d.heightPixels,d.widthPixels) / 25;
         view.setMinimumHeight(size);
         view.setMinimumWidth(size);
-        //Log.d("LOG", )
-        //view.setMinimumHeight(view.getMinimumHeight() * size);
-        //view.setMinimumWidth(view.getMinimumWidth() * size);
+
+
+        //TODO this doesn't seem to work, but was intended to increase the hitbox of the corner
+        final View parent = (View) view.getParent();
+        parent.post(new Runnable() {
+            @Override
+            public void run() {
+                Rect delegateArea = new Rect();
+                view.getHitRect(delegateArea);
+                delegateArea.top -= 100;
+                delegateArea.bottom += 100;
+                delegateArea.left -= 100;
+                delegateArea.right += 100;
+                parent.setTouchDelegate(new TouchDelegate(delegateArea, view));
+
+            }
+        });
+
+        //onclick logic
         final Corner c = this;
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,25 +72,45 @@ public class Corner{
                 board.update(c);
             }
         });
+
     }
 
+    /**
+     * Set the Corner to its on/off state
+     * @param opt true = on, false = off
+     */
     public void setOnOff(boolean opt){
         isOn = opt;
         int col = (opt)? 0xFFFFFFFF : 0xFF000000;
         view.setBackgroundColor(col);
     }
 
+    /**
+     * Switch the corner's on/off state
+     */
     public void flip(){
         setOnOff(!isOn);
     }
+
+    /**
+     * @return the corner's on/off state
+     */
     public boolean getOn(){
         return isOn;
     }
 
+    /**
+     * @return the corner's id
+     */
     public int getId(){
         return id;
     }
 
+    /**
+     * check if the corner is neighbouring another corner
+     * @param c the other corner to check against
+     * @return true if neighbour, false if not neighbour
+     */
     public boolean isNeighbour(Corner c){
         int other = c.getId();
 
