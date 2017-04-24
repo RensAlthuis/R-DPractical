@@ -13,12 +13,12 @@ public class Board extends Level{
     public Board(final Activity current_activity, Level level){
         super(level);
         activity  = current_activity;
-        tilesView = tilesView(tiles,size);
+        tilesView = tilesView();
 
         walkOn(current);
     }
 
-    private ImageView[][] tilesView(Tile[][] tiles, Pos size){
+    private ImageView[][] tilesView(){
         ImageView[][] views = new ImageView[size.x][size.y];
         for (int i=0; i<size.x ; i++)
             for (int j=0; j<size.y ; j++){

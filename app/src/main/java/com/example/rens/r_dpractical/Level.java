@@ -20,11 +20,12 @@ public class Level {
         return true;
     }
 
-    Level(Level level){
+    Level(final Level level){
         size    = level.size;
         current = level.current;
         finish  = level.finish;
         tiles   = level.tiles;
+        reset();
     }
 
     public Level(final Tile[][] board, final Pos start, final Pos end) {
@@ -37,14 +38,21 @@ public class Level {
         }
     }
 
+    private void reset(){
+        for(int i=0; i<size.x ; i++)
+            for(int j=0; j<size.y ; j++)
+                if(i%2==0 || j%2==0)
+                    ((Road)tiles[i][j]).onRoute = false;
+    }
+
     private boolean wellTiled(){
         for(int i=0; i<size.x ; i++)
             for(int j=0; j<size.y ; j++){
-                if(i%2==1 && j%2==1){
-                    if(!(tiles[i][j] instanceof Block)) return false;
+                if(i%2==0 || j%2==0){
+                    if(!(tiles[i][j] instanceof Road)) return false;
                 }
                 else
-                    if(!(tiles[i][j] instanceof Road)) return false;
+                    if(!(tiles[i][j] instanceof Block)) return false;
             }
         return true;
     }

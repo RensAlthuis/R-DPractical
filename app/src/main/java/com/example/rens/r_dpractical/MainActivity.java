@@ -8,13 +8,13 @@ import android.widget.Button;
 
 import static com.example.rens.r_dpractical.Shortcuts.*;
 
-public class MainActivity extends AppCompatActivity {
+public final class MainActivity extends AppCompatActivity {
     final Activity mainActivity = this;
 
     // x en y zijn hier gedraait: x gaat van boven naar beneden \/, y gaat van links naar rechts -> (normaal andersom)
     private static final Tile[][] level1Tiles =
-            {{rd() , rd() , rn() , rn() , rn() , rd() , rn() , rn() , rn() },
-            { rn() , bn() , rd() , bn() , rn() , bn() , rd() , bn() , rn() },
+            {{rn() , rn() , rn() , rn() , rn() , rd() , rn() , rn() , rn() },
+            { rn() , bn() , rn() , bn() , rn() , bn() , rd() , bn() , rn() },
             { rd() , rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() },
             { rn() , bn() , rn() , bn() , rn() , bn() , rn() , bn() , rn() },
             { rd() , rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() },

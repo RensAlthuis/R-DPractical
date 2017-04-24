@@ -44,6 +44,10 @@ public class Pos {
     }
 
     public boolean isNeighbour(Pos pos){
-        return (pos.x==x && (y-2<=pos.y && pos.y<=y+2)) || (pos.y==y && (x-2<=pos.x && pos.x<=x+2));
+        return (pos.x==x && (y-2==pos.y || pos.y==y+2)) || (pos.y==y && (x-2==pos.x || pos.x==x+2));
+    }
+
+    public Pos clone(){
+        return new Pos(this.x,this.y);
     }
 }
