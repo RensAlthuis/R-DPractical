@@ -1,87 +1,81 @@
 package com.example.rens.r_dpractical;
 
 import android.app.Activity;
-import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
-import java.util.HashMap;
+// dit is het active spelbord. hier wordt dus een level geladen en die wordt dan hier bespeeld.
+public class Board extends Level{
 
-/**
- * Created by Rens on 19-4-2017.
- */
-public class Board {
+    private final Activity activity; // de huidige activiteit
+    private final ImageView[][] tilesView; // om alles een plaatje te geven
 
-    private Corner[] corners;
-    private Corner current;
-    private HashMap<String, Side> sides;
-    private Activity activity;
-    private Block[] boxes;
+    public Board(final Activity current_activity, Level level){
+        super(level);
+        activity  = current_activity;
+        tilesView = tilesView(tiles,size);
 
-    /**
-     * Constructor
-     * @param _activity Parent activity, (this)
-     */
-    public Board(Activity _activity){
-        activity = _activity;
+        walkOn(current);
+    }
 
-        //Corners, creates the corners with id's 1 through 25
-        corners = new Corner[25];
-        for(int i = 0; i < 25; i++) {
-            String str = "corner" + (i+1);
-            int resId = activity.getResources().getIdentifier(str, "id", activity.getPackageName());
-            corners[i] = new Corner(this, i+1, resId, activity);
-        }
-        current = corners[24];
-        current.flip();
+    private ImageView[][] tilesView(Tile[][] tiles, Pos size){
+        ImageView[][] views = new ImageView[size.x][size.y];
+        for (int i=0; i<size.x ; i++)
+            for (int j=0; j<size.y ; j++){
+                final Pos pos = new Pos(i,j);
 
-        //Boxes creates the blocks with id's 1 through 16
-        boxes = new Block[16];
-        for(int i = 0; i<16; i++){
-            String str = "block" + (i+1);
-            int resId = activity.getResources().getIdentifier(str, "id", activity.getPackageName());
-            boxes[i] = new Block(i+1, resId, activity);
-        }
+                String str;
+                if(pos.isCrossing())   str = "corner" + pos;
+                else if(pos.isBlock()) str = "block"  + pos;
+                else                   str = "side"   + pos;
 
-        //Sides, creates the blocks with id's as string in formate sideX_Y where X and Y are the connecting corners
-        //its stored in a hashmap so if you know the corners it's easy to find the corresponding side
-        sides = new HashMap<String, Side>();
-        for(int i = 0; i < 5; i++){
-            //horizontals
-            for(int i2 = 1; i2 < 5; i2++) {
-                String str = "side" + (i * 5 + i2) + "_" + (i * 5 + i2 + 1);
-                int resId = activity.getResources().getIdentifier(str, "id", activity.getPackageName());
-                sides.put(str, new Side(false, str, resId, activity));
+                views[i][j] = ((ImageView)activity.findViewById(activity.getResources().getIdentifier(str, "id", activity.getPackageName())));
+
+                if(pos.isCrossing()){
+                    final Board board = this;
+                    views[i][j].setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            board.moveTo(pos);
+                        }
+                    });
+                }
+
+                if(tiles[i][j] instanceof RoadDot){
+                    views[i][j].setImageResource(R.drawable.dot);
+                }
             }
+        return views;
+    }
 
-            //verticals
-            for(int i2 = 0; i2 < 4; i2++){
-                String str = "side" + (i2 * 5 + i + 1) + "_" + (i2 * 5 + i + 6);
-                int resId = activity.getResources().getIdentifier(str, "id", activity.getPackageName());
-                sides.put(str, new Side(true, str, resId, activity));
-            }
+    private void moveTo(Pos pos){
+        Pos lastPos = null;
+        try{ lastPos = last.lastElement(); }
+        catch(Exception e){} // zodat als de vector leeg is lastPos gewoon null is (wat het zou moeten zijn, ipv crashen!!)
+
+        if(pos.equals(lastPos)){
+            walkOff(current);
+            walkOff(current.inBetween(lastPos));
+
+            last.remove(last.size()-1);
+            current = lastPos;
+        }
+        else if(pos.isNeighbour(current) && !((Road)tiles[pos.x][pos.y]).onRoute){
+            walkOn(current.inBetween(pos));
+            walkOn(pos);
+
+            last.add(current);
+            current = pos;
         }
     }
 
+    private void walkOn(Pos pos){
+        ((Road)tiles[pos.x][pos.y]).onRoute = true;
+        tilesView[pos.x][pos.y].setBackgroundColor(0xFFFFFFFF);
+    }
 
-    /**
-     * Board update function, this is a sort off callback function called by Corner.OnClick()
-     * @param clicked, the Corner object that was clicked
-     */
-    public void update(Corner clicked){
-
-        Log.d("LOG", "Click!!");
-        //make sure user clicked a nonactive neighbour.
-        //TODO maybe change this to a List of sorts. Stack maybe?
-        if (clicked.isNeighbour(current) && clicked.getOn() != true){
-
-            //turn corner on
-            clicked.flip();
-
-            //turn connecting side on
-            String str = "side" + Math.min(clicked.getId(), current.getId()) + "_" + Math.max(clicked.getId(), current.getId());
-            sides.get(str).setOnOff(true);
-
-            //update the last clicked
-            current = clicked;
-        }
+    private void walkOff(Pos pos){
+        ((Road)tiles[pos.x][pos.y]).onRoute = false;
+        tilesView[pos.x][pos.y].setBackgroundColor(0xFF000000);
     }
 }
