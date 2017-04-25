@@ -1,5 +1,6 @@
 package com.example.rens.r_dpractical;
 
+// Een makkelijke manier om gelijk een (x,y) mee te geven, en verschillende dingen daarvan makkelijk uit te kunnen lezen.
 public class Pos {
     public int x;
     public int y;
@@ -12,7 +13,6 @@ public class Pos {
     public boolean isBlock(){
         return (x%2==1 && y%2==1);
     }
-    
     public boolean isCrossing(){
         return (x%2==0 && y%2==0);
     }
@@ -47,6 +47,7 @@ public class Pos {
         return (pos.x==x && (y-2==pos.y || pos.y==y+2)) || (pos.y==y && (x-2==pos.x || pos.x==x+2));
     }
 
+    @Override
     public Pos clone(){
         return new Pos(this.x,this.y);
     }

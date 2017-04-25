@@ -20,7 +20,7 @@ abstract class Tile {
      *
      * hiermee kun je gemakkelijk verschillende eigenschappen van een weg weten.
      * ( bijv: type>0 => het is een kruising, type>0 && type%3==0 => het zit aan de linkerzijde)
-     */
+     **/
     public int type(Pos size, Pos pos) { return type(size,pos.x,pos.y); }
     public int type(Pos size, int x, int y){
         int type = 0;
