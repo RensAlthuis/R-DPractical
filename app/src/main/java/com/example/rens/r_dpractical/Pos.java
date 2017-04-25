@@ -1,18 +1,26 @@
 package com.example.rens.r_dpractical;
 
+import android.util.Log;
+
+/**
+ * oi
+ * Created by Pieps on 4/28/2017.
+ */
+
 public class Pos {
     public int x;
     public int y;
-    
-    public Pos(int x, int y){
+
+
+    public Pos(int x, int y)
+    {
         this.x = x;
         this.y = y;
     }
-    
+
     public boolean isBlock(){
         return (x%2==1 && y%2==1);
     }
-    
     public boolean isCrossing(){
         return (x%2==0 && y%2==0);
     }
@@ -29,7 +37,7 @@ public class Pos {
         if(!(object instanceof Pos)) return false;
         return x == ((Pos)object).x && y == ((Pos)object).y;
     }
-    
+
     public boolean fitsIn(Pos size){
         return smallerThan(size) && x>=0 && y>=0;
     }
@@ -47,7 +55,20 @@ public class Pos {
         return (pos.x==x && (y-2==pos.y || pos.y==y+2)) || (pos.y==y && (x-2==pos.x || pos.x==x+2));
     }
 
+    public boolean sharesAxis(Pos pos){
+        return x==pos.x || y==pos.y;
+    }
+
+    @Override
     public Pos clone(){
         return new Pos(this.x,this.y);
+    }
+
+    public Pos toDrawCoord(){
+        return new Pos(x/2,y/2);
+    }
+
+    public Pos toBoardCoord(){
+        return new Pos(x*2,y*2);
     }
 }

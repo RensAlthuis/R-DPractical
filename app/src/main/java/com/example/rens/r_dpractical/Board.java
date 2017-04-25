@@ -1,81 +1,64 @@
 package com.example.rens.r_dpractical;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-// dit is het active spelbord. hier wordt dus een level geladen en die wordt dan hier bespeeld.
+// dit is het active spelbord. hier wordt dus een level geladen en die kan alleen hier ook bespeeld worden.
 public class Board extends Level{
 
     private final Activity activity; // de huidige activiteit
-    private final ImageView[][] tilesView; // om alles een plaatje te geven
+//    private final ImageView[][] tilesView; // om alles een plaatje te geven
 
     public Board(final Activity current_activity, Level level){
         super(level);
         activity  = current_activity;
-        tilesView = tilesView();
 
-        walkOn(current);
     }
 
-    private ImageView[][] tilesView(){
-        ImageView[][] views = new ImageView[size.x][size.y];
-        for (int i=0; i<size.x ; i++)
-            for (int j=0; j<size.y ; j++){
-                final Pos pos = new Pos(i,j);
-
-                String str;
-                if(pos.isCrossing())   str = "corner" + pos;
-                else if(pos.isBlock()) str = "block"  + pos;
-                else                   str = "side"   + pos;
-
-                views[i][j] = ((ImageView)activity.findViewById(activity.getResources().getIdentifier(str, "id", activity.getPackageName())));
-
-                if(pos.isCrossing()){
-                    final Board board = this;
-                    views[i][j].setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            board.moveTo(pos);
-                        }
-                    });
-                }
-
-                if(tiles[i][j] instanceof RoadDot){
-                    views[i][j].setImageResource(R.drawable.dot);
-                }
-            }
-        return views;
-    }
-
-    private void moveTo(Pos pos){
+    // ga vanuit 'current' naar 'pos'
+    public void moveTo(Pos pos){
+        pos = pos.toBoardCoord();
+        // de positie van het vorige kruispunt
+        Log.d("UDEBUG", "moving to pos: " + pos);
+        Log.d("UDEBUG", "last pos = " + getLastPos());
         Pos lastPos = null;
-        try{ lastPos = last.lastElement(); }
-        catch(Exception e){} // zodat als de vector leeg is lastPos gewoon null is (wat het zou moeten zijn, ipv crashen!!)
+        try{ lastPos = last.get(last.size()-2); }
+        catch(Exception e){} // zodat als de vector leeg is lastPos gewoon null is (wat het zou moeten zijn, ipv crashen!! >:( )
 
+        // als je klikt op de kruising waar je vandaan komt
         if(pos.equals(lastPos)){
-            walkOff(current);
-            walkOff(current.inBetween(lastPos));
-
-            last.remove(last.size()-1);
-            current = lastPos;
+            if(last.size() > 1) {
+                Log.d("UDEBUG", "returning to last: " + pos);
+                last.remove(last.size() - 1);
+                current = lastPos;
+            }
         }
-        else if(pos.isNeighbour(current) && !((Road)tiles[pos.x][pos.y]).onRoute){
-            walkOn(current.inBetween(pos));
-            walkOn(pos);
+        // als je klikt op een kruising die 1) dichtbij is, 2) waar je niet al eerber hebt gelopen
+        else if(pos.isNeighbour(current) && !isOnRoute(pos)){
+            Log.d("UDEBUG", "this is a neighbour");
 
-            last.add(current);
+            if(!pos.equals(new Pos(0,0)))
+                last.add(pos);
             current = pos;
+
+            if(current.equals(finish)){
+                // TODO add finish condition
+            }
         }
     }
 
-    private void walkOn(Pos pos){
-        ((Road)tiles[pos.x][pos.y]).onRoute = true;
-        tilesView[pos.x][pos.y].setBackgroundColor(0xFFFFFFFF);
+    public Pos getLastPos(){
+        return last.lastElement().toDrawCoord();
     }
 
-    private void walkOff(Pos pos){
-        ((Road)tiles[pos.x][pos.y]).onRoute = false;
-        tilesView[pos.x][pos.y].setBackgroundColor(0xFF000000);
+    public boolean isOnRoute(Pos pos){
+        for(Pos p: last){
+            if(p.equals(pos)){
+                return true;
+            }
+        }
+        return false;
     }
 }
