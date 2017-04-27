@@ -47,6 +47,10 @@ public class Pos {
         return (pos.x==x && (y-2==pos.y || pos.y==y+2)) || (pos.y==y && (x-2==pos.x || pos.x==x+2));
     }
 
+    public boolean sharesAxis(Pos pos){
+        return x==pos.x || y==pos.y;
+    }
+
     @Override
     public Pos clone(){
         return new Pos(this.x,this.y);

@@ -42,7 +42,7 @@ public final class MainActivity extends AppCompatActivity {
         ((Button)findViewById(R.id.StartButton)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setContentView(R.layout.activity_game); // laat de 5x5 grid
+                setContentView(R.layout.activity_game); // laad de 5x5 grid
                 Board board = new Board(mainActivity,level1); // activeert level 1
             }
         });
