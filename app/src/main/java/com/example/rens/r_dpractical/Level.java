@@ -87,7 +87,7 @@ public class Level {
                         tiles = new Tile[size.x][size.y];
 
                     } else if (words[0].equals("{")) {
-                        for (int i = 0; i < words.length - 1; i++) {
+                        for (int i = 0; i < words.length; i++) {
                             Log.d("UDEBUG", "x: " + x + " y: " + i + "= " + words[i]);
                             if (words[i].equals("bn")) {
                                 tiles[x][i-1] = bn();
