@@ -21,7 +21,7 @@ public final class MainActivity extends AppCompatActivity {
     // (x en y zijn hier gedraait: x gaat van boven naar beneden, y gaat van links naar rechts (overal anders precies andersom))
 
     private static final Tile[][] level1Tiles =
-            {{rn() , rn() , rn() , rn() , rn() , rd() , rn() , rn() , rn() },
+            {{rd() , rn() , rn() , rn() , rn() , rd() , rn() , rn() , rn() },
             { rn() , bn() , rn() , bn() , rn() , bn() , rd() , bn() , rn() },
             { rd() , rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() },
             { rn() , bn() , rn() , bn() , rn() , bn() , rn() , bn() , rn() },
