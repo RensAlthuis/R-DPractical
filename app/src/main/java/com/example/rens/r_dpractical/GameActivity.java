@@ -15,23 +15,13 @@ import static com.example.rens.r_dpractical.Shortcuts.*;
 public final class GameActivity extends Activity {
     final Activity gameActivity = this;
 
-    private static final Tile[][] level1Tiles =
-            {{rn() , rn() , rn() , rn() , rn() , rd() , rn() , rn() , rn() },
-                    { rn() , bn() , rn() , bn() , rn() , bn() , rd() , bn() , rn() },
-                    { rd() , rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() },
-                    { rn() , bn() , rn() , bn() , rn() , bn() , rn() , bn() , rn() },
-                    { rd() , rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() },
-                    { rn() , bn() , rd() , bn() , rn() , bn() , rd() , bn() , rn() },
-                    { rd() , rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() },
-                    { rn() , bn() , rn() , bn() , rn() , bn() , rn() , bn() , rn() },
-                    { rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() , rn() }};
-    private static final Level level1 = new Level(level1Tiles, new Pos(0,0), new Pos(8,8));
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final Level level1 = new Level(level1Tiles, new Pos(0,0), new Pos(8,8));
+        Intent intent = getIntent();
+        String str = intent.getStringExtra("name");
+        final Level level1 = new Level("assets/levels.txt", str,this);
         final Board board = new Board(this, level1);
         final drawPuzzle canvas = new drawPuzzle(this, board);
 
@@ -52,8 +42,7 @@ public final class GameActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(gameActivity, MainActivity.class);
-                startActivity(intent);
+                finish();
 
             }
         });

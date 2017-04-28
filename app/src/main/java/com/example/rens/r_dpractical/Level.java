@@ -54,7 +54,7 @@ public class Level {
         }
     }
 
-    public Level(String fileName, String name, Context context){
+    public Level(String fileName, final String name, Context context){
         try{
             // loadFile
             InputStream is = context.getAssets().open("levels.txt");
@@ -90,17 +90,19 @@ public class Level {
                         int y = 0;
                         for (int i = 0; i < words.length; i++) {
 
-                            Log.d("UDEBUG", "x: " + x + " y: " + y + "= " + words[i]);
                             if (words[i].equals("bn")) {
+                                Log.d("NEWLEVEL", x + " " + y + " bn");
                                 tiles[x][y] = bn();
                             } else if (words[i].equals("bh")) {
                                 i++;
                                 tiles[x][y] = bh(Integer.parseInt(words[i]));
-                                Log.d("UDEBUG", "BOE " + tiles[x][y]);
+                                Log.d("NEWLEVEL", x + " " + y + " bh " + tiles[x][y]);
 
                             } else if (words[i].equals("rn")) {
+                                Log.d("NEWLEVEL", x + " " + y + " rn ");
                                 tiles[x][y] = rn();
                             } else if (words[i].equals("rd")) {
+                                Log.d("NEWLEVEL", x + " " + y + " rd");
                                 tiles[x][y] = rd();
                             }else{
                                 y--;

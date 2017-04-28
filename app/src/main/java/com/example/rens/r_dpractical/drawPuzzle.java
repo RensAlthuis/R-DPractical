@@ -74,7 +74,7 @@ public class drawPuzzle extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawColor(Color.WHITE);
+        canvas.drawColor(Color.DKGRAY);
         distancex = getWidth() / 4 - 20;
         distancey = getHeight() / 4 - 50;
         Pos drawline = board.getLastPos();
@@ -164,7 +164,6 @@ public class drawPuzzle extends View {
                     px -= hill1.getWidth()/2;
                     py -= hill1.getHeight()/2;
                     BlockHills block = (BlockHills) board.tiles[a][b];
-                    Log.d("UDEBUG", "SDKLJFLSDJF");
                     switch(block.getNeighbours()){
                         case 1:
 

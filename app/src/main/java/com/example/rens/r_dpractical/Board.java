@@ -21,8 +21,6 @@ public class Board extends Level{
     public void moveTo(Pos pos){
         pos = pos.toBoardCoord();
         // de positie van het vorige kruispunt
-        Log.d("UDEBUG", "moving to pos: " + pos);
-        Log.d("UDEBUG", "last pos = " + getLastPos());
         Pos lastPos = null;
         try{ lastPos = last.get(last.size()-2); }
         catch(Exception e){} // zodat als de vector leeg is lastPos gewoon null is (wat het zou moeten zijn, ipv crashen!! >:( )
@@ -38,10 +36,12 @@ public class Board extends Level{
         }
         // als je klikt op een kruising die 1) dichtbij is, 2) waar je niet al eerber hebt gelopen
         else if(pos.isNeighbour(current) && !isOnRoute(pos)){
-            Log.d("UDEBUG", "this is a neighbour");
 
+            Log.d("UDEBUG", "moving to pos: " + pos);
             if(!pos.equals(new Pos(0,0))) {
                 ((Road)tiles[pos.x][pos.y]).onRoute = true;
+                Pos road = current.inBetween(pos);
+                ((Road)tiles[road.x][road.y]).onRoute = true;
                 last.add(pos);
             }
             current = pos;

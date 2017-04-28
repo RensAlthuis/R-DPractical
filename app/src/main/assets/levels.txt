@@ -1,9 +1,9 @@
-name: level1
+name: Hill1
 size: 9 9
 start: 0 0
 end: 8 8
 { rn rn rn rn rn rd rn rn rn
-{ rn bh 3 rn bn rn bn rd bn rn
+{ rn bh 2 rn bn rn bn rd bn rn
 { rd rn rd rn rn rn rd rn rn
 { rn bn rn bn rn bn rn bn rn
 { rd rn rd rn rn rn rd rn rn
@@ -12,7 +12,7 @@ end: 8 8
 { rn bn rn bn rn bn rn bn rn
 { rn rd rn rn rn rd rn rn rn
 
-name: level2
+name: Hill2
 size: 9 9
 start: 0 0
 end: 8 8

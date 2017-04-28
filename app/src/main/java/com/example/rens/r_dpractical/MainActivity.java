@@ -22,41 +22,32 @@ public final class MainActivity extends AppCompatActivity {
 
     // (x en y zijn hier gedraait: x gaat van boven naar beneden, y gaat van links naar rechts (overal anders precies andersom))
 
-    private static final Tile[][] level1Tiles =
-            {{rd() , rn() , rn() , rn() , rn() , rd() , rn() , rn() , rn() },
-            { rn() , bh(1) , rn() , bn() , rn() , bn() , rd() , bn() , rn() },
-            { rd() , rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() },
-            { rn() , bn() , rn() , bh(3) , rn() , bn() , rn() , bn() , rn() },
-            { rd() , rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() },
-            { rn() , bn() , rd() , bn() , rn() , bn() , rd() , bn() , rn() },
-            { rd() , rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() },
-            { rn() , bn() , rn() , bn() , rn() , bn() , rn() , bn() , rn() },
-            { rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() , rn() }};
-
-    /******************************************************************************************/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu); // hoofdmenu
 
-        final Level level1 = new Level(level1Tiles, new Pos(0,0), new Pos(8,8));
-        //final Level level2 = new Level("assets/levels.txt", "level1", this);
-
-        final Board board = new Board(this, level1);
-        final drawPuzzle canvas = new drawPuzzle(this, board);
-
         // voor wat er gebeurt als je op de startknop drukt:
-        ((Button)findViewById(R.id.StartButton)).setOnClickListener(new View.OnClickListener() {
+        ((Button)findViewById(R.id.HillsButton)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(mainActivity, GameActivity.class);
+                Intent intent = new Intent(mainActivity, Hills_menu.class);
                 startActivity(intent);
 
             }
         });
 
+        ((Button)findViewById(R.id.DotsButton)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(mainActivity, Dots_menu.class);
+                startActivity(intent);
+
+            }
+        });
 
     }
 }
