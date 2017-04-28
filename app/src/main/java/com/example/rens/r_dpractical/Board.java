@@ -60,7 +60,7 @@ public class Board extends Level{
                     Log.d("UDEBUG", "YOU WIN");
                     activity.win();
                 }else{
-                    Log.d("UDEBUG", "YOU LOOOOOOOSE");
+                    Log.d("UDEBUG", "YOU LOSE");
                 }
             }
         }
