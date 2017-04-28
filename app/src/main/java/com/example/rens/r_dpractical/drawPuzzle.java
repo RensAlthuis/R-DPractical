@@ -1,6 +1,8 @@
 package com.example.rens.r_dpractical;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -33,6 +35,10 @@ public class drawPuzzle extends View {
     private Paint activeLine = new Paint();
     private Paint roadDotPaint = new Paint();
 
+    private Bitmap hill1;
+    private Bitmap hill2;
+    private Bitmap hill3;
+
 
     Board board;
     //Size of field, not necessary for this demonstration but perhaps later on ehh
@@ -59,6 +65,9 @@ public class drawPuzzle extends View {
         linePaint.setStyle(Paint.Style.STROKE);
         linePaint.setStrokeWidth(45);
         board = _board;
+        hill1 = BitmapFactory.decodeResource(getResources(),R.drawable.single_hill);
+        hill2 = BitmapFactory.decodeResource(getResources(),R.drawable.double_hill);
+        hill3 = BitmapFactory.decodeResource(getResources(),R.drawable.triple_hill);
     }
 
     @Override
@@ -116,9 +125,9 @@ public class drawPuzzle extends View {
             prevY = temp.y;
         }
 
-        //road dots
         for (int a = 0; a < board.size.x; a++) {
             for (int b = 0; b < board.size.y; b++) {
+                //teken alle road dots
                 if(board.tiles[a][b] instanceof RoadDot) {
 
                     Pos pos = new Pos(a, b);
@@ -127,9 +136,11 @@ public class drawPuzzle extends View {
                         pos = pos.toDrawCoord();
                         canvas.drawRect((float) toScreenX(pos.x) - 10, (float) toScreenY(pos.y) - 10, (float) toScreenX(pos.x) + 10, (float) toScreenY(pos.y) + 10, roadDotPaint);
                     }else{
+
                         float px = 0;
                         float py = 0;
 
+                        //horizontaal vs verticaal check
                         if(pos.x % 2 == 0){
                             pos = pos.toDrawCoord();
                             px = toScreenX(pos.x);
@@ -142,8 +153,32 @@ public class drawPuzzle extends View {
                         canvas.drawRect(px - 10, py - 10, px + 10, py + 10, roadDotPaint);
                     }
                 }
+                else if(board.tiles[a][b] instanceof BlockHills){
+
+                    Pos p = new Pos(a,b).toDrawCoord();
+
+                    float px = (toScreenX(p.x) + toScreenX(p.x+1)) / 2.0f;
+                    float py = (toScreenY(p.y) + toScreenY(p.y+1)) / 2.0f;
+                    px -= hill1.getWidth()/2;
+                    py -= hill1.getHeight()/2;
+                    BlockHills block = (BlockHills) board.tiles[a][b];
+                    switch(block.getNeighbours()){
+                        case 1:
+
+                            canvas.drawBitmap(hill1,px,py,null);
+                            break;
+                        case 2:
+                            canvas.drawBitmap(hill2,px,py,null);
+                            break;
+                        case 3:
+                            canvas.drawBitmap(hill3,px,py,null);
+                            break;
+                    }
+                }
             }
         }
+
+
     }
 
     public int toScreenX(int x){

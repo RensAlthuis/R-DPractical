@@ -22,9 +22,9 @@ public final class MainActivity extends AppCompatActivity {
 
     private static final Tile[][] level1Tiles =
             {{rd() , rn() , rn() , rn() , rn() , rd() , rn() , rn() , rn() },
-            { rn() , bn() , rn() , bn() , rn() , bn() , rd() , bn() , rn() },
+            { rn() , bh(1) , rn() , bn() , rn() , bn() , rd() , bn() , rn() },
             { rd() , rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() },
-            { rn() , bn() , rn() , bn() , rn() , bn() , rn() , bn() , rn() },
+            { rn() , bn() , rn() , bh(3) , rn() , bn() , rn() , bn() , rn() },
             { rd() , rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() },
             { rn() , bn() , rd() , bn() , rn() , bn() , rd() , bn() , rn() },
             { rd() , rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() },
