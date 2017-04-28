@@ -1,6 +1,8 @@
 package com.example.rens.r_dpractical;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -31,6 +33,11 @@ public class drawPuzzle extends View {
     private Paint selectedCircle = new Paint();
     private Paint linePaint = new Paint();
     private Paint activeLine = new Paint();
+    private Paint roadDotPaint = new Paint();
+
+    private Bitmap hill1;
+    private Bitmap hill2;
+    private Bitmap hill3;
 
 
     Board board;
@@ -56,11 +63,18 @@ public class drawPuzzle extends View {
         selectedCircle.setColor(Color.WHITE);
         circlePaint.setStyle(Paint.Style.FILL_AND_STROKE);
         activeLine.setStyle(Paint.Style.STROKE);
+        roadDotPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        roadDotPaint.setColor(Color.RED);
         activeLine.setColor(Color.WHITE);
         activeLine.setStrokeWidth(37);
         linePaint.setStyle(Paint.Style.STROKE);
         linePaint.setStrokeWidth(45);
+
         board = mBoard;
+        hill1 = BitmapFactory.decodeResource(getResources(),R.drawable.single_hill);
+        hill2 = BitmapFactory.decodeResource(getResources(),R.drawable.double_hill);
+        hill3 = BitmapFactory.decodeResource(getResources(),R.drawable.triple_hill);
+
     }
 
     @Override
@@ -69,8 +83,8 @@ public class drawPuzzle extends View {
         distancex = getWidth() / 4 - 20;
         distancey = getHeight() / 4 - 50;
         Pos drawline = board.getLastPos();
-        int startX =  40 + distancex * drawline.x;
-        int startY =  100 + distancey * drawline.y;
+        int startX = toScreenX(drawline.x);
+        int startY = toScreenY(drawline.y);
 
         if(Math.abs( startY - mouseY) > Math.abs(startX - mouseX)){
             endX = startX;
@@ -82,36 +96,104 @@ public class drawPuzzle extends View {
             invalidate();
         }
 
-
-        for (int a = 0; a < 5; a++)
+        //clearing out sides
+        for (int a = 0; a < 5; a++) {
             for (int b = 0; b < 5; b++) {
 
                 if (a >= 1)
-                    canvas.drawLine(40 + distancex * (a - 1), 100 + distancey * b, 40 + distancex * a, 100 + distancey * b, linePaint);
+                    canvas.drawLine(toScreenX(a - 1), toScreenY(b), toScreenX(a), toScreenY(b), linePaint);
                 if (b >= 1)
-                    canvas.drawLine(40 + distancex * a, 100 + distancey * (b - 1), 40 + distancex * (a), 100 + distancey * b, linePaint);
+                    canvas.drawLine(toScreenX(a), toScreenY(b - 1), toScreenX(a), toScreenY(b), linePaint);
             }
+        }
 
+        //redrawing corners.
         //For these I want to be on top, I draw them again(incredibly inefficient IK )
-        for (int a = 0; a < 5; a++)
+        for (int a = 0; a < 5; a++) {
             for (int b = 0; b < 5; b++) {
-                canvas.drawCircle(40 + distancex * a, 100 + distancey * b, 30, circlePaint);
-                if (board.isOnRoute(new Pos(a, b).toBoardCoord())){
-                    canvas.drawCircle(40 + distancex * a, 100 + distancey * b, 25, selectedCircle); //This circle has been selected!
+                canvas.drawCircle(toScreenX(a), toScreenY(b), 30, circlePaint);
+                if (board.isOnRoute(new Pos(a, b).toBoardCoord())) {
+                    canvas.drawCircle(toScreenX(a), toScreenY(b), 25, selectedCircle); //This circle has been selected!
                 }
             }
+        }
 
+        // the current line
         if(mayDraw)
             canvas.drawLine(startX, startY, endX, endY, activeLine);
 
+        // the old lines
         int prevX = 0;
         int prevY = 0;
         for(Pos temp: board.last) {
             temp = temp.toDrawCoord();
-            canvas.drawLine( (40 + distancex * prevX), (100 + distancey * prevY), (40 + distancex * temp.x), (100 + distancey *  temp.y), activeLine);
+            canvas.drawLine( toScreenX(prevX), toScreenY(prevY), toScreenX(temp.x), toScreenY(temp.y), activeLine);
             prevX = temp.x;
             prevY = temp.y;
         }
+
+        for (int a = 0; a < board.size.x; a++) {
+            for (int b = 0; b < board.size.y; b++) {
+                //teken alle road dots
+                if(board.tiles[a][b] instanceof RoadDot) {
+
+                    Pos pos = new Pos(a, b);
+
+                    if (pos.isCrossing()) {
+                        pos = pos.toDrawCoord();
+                        canvas.drawRect((float) toScreenX(pos.x) - 10, (float) toScreenY(pos.y) - 10, (float) toScreenX(pos.x) + 10, (float) toScreenY(pos.y) + 10, roadDotPaint);
+                    }else{
+
+                        float px = 0;
+                        float py = 0;
+
+                        //horizontaal vs verticaal check
+                        if(pos.x % 2 == 0){
+                            pos = pos.toDrawCoord();
+                            px = toScreenX(pos.x);
+                            py = (toScreenY(pos.y) + toScreenY(pos.y+1)) / 2.0f;
+                        }else{
+                            pos = pos.toDrawCoord();
+                            px = (toScreenX(pos.x) + toScreenX(pos.x+1)) / 2.0f;
+                            py = toScreenY(pos.y);
+                        }
+                        canvas.drawRect(px - 10, py - 10, px + 10, py + 10, roadDotPaint);
+                    }
+                }
+                else if(board.tiles[a][b] instanceof BlockHills){
+
+                    Pos p = new Pos(a,b).toDrawCoord();
+
+                    float px = (toScreenX(p.x) + toScreenX(p.x+1)) / 2.0f;
+                    float py = (toScreenY(p.y) + toScreenY(p.y+1)) / 2.0f;
+                    px -= hill1.getWidth()/2;
+                    py -= hill1.getHeight()/2;
+                    BlockHills block = (BlockHills) board.tiles[a][b];
+                    switch(block.getNeighbours()){
+                        case 1:
+
+                            canvas.drawBitmap(hill1,px,py,null);
+                            break;
+                        case 2:
+                            canvas.drawBitmap(hill2,px,py,null);
+                            break;
+                        case 3:
+                            canvas.drawBitmap(hill3,px,py,null);
+                            break;
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    public int toScreenX(int x){
+       return 40 + distancex * x;
+    }
+
+    public int toScreenY(int y){
+        return 100 + distancey * y;
     }
 
     @Override

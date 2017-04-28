@@ -7,6 +7,10 @@ public class BlockHills extends Block {
     public BlockHills(int neighbours){
         this.neighbours = neighbours;
     }
+
+    public int getNeighbours(){
+        return neighbours;
+    }
     
     @Override
     public boolean isCorrect(Tile[][] tiles, Pos size, int x, int y) {

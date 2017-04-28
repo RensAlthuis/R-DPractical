@@ -31,6 +31,7 @@ public class Board extends Level{
         if(pos.equals(lastPos)){
             if(last.size() > 1) {
                 Log.d("UDEBUG", "returning to last: " + pos);
+                ((Road)tiles[pos.x][pos.y]).onRoute = false;
                 last.remove(last.size() - 1);
                 current = lastPos;
             }
@@ -39,12 +40,25 @@ public class Board extends Level{
         else if(pos.isNeighbour(current) && !isOnRoute(pos)){
             Log.d("UDEBUG", "this is a neighbour");
 
-            if(!pos.equals(new Pos(0,0)))
+            if(!pos.equals(new Pos(0,0))) {
+                ((Road)tiles[pos.x][pos.y]).onRoute = true;
                 last.add(pos);
+            }
             current = pos;
 
             if(current.equals(finish)){
-                // TODO add finish condition
+                boolean win = true;
+                for(int a = 0; a < size.x; a++){
+                    for(int b = 0; b < size.y; b++) {
+                        if(!tiles[a][b].isCorrect(tiles,size,a,b))
+                            win = false;
+                    }
+                }
+                if(win){
+                    Log.d("UDEBUG", "YOU WIN");
+                }else{
+                    Log.d("UDEBUG", "YOU LOOOOOOOSE");
+                }
             }
         }
     }

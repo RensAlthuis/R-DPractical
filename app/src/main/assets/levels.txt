@@ -1,0 +1,27 @@
+name: level1
+size: 9 9
+start: 0 0
+end: 8 8
+{ rn rn rn rn rn rd rn rn rn
+{ rn bn rn bn rn bn rd bn rn
+{ rd rn rd rn rn rn rd rn rn
+{ rn bn rn bn rn bn rn bn rn
+{ rd rn rd rn rn rn rd rn rn
+{ rn bn rd bn rn bn rd bn rn
+{ rd rn rd rn rn rn rd rn rn
+{ rn bn rn bn rn bn rn bn rn
+{ rn rd rn rn rn rd rn rn rn
+
+name: level2
+size: 9 9
+start: 0 0
+end: 8 8
+{ rn rn rn rn rn rn rn rn rn
+{ rn bn rn bn rn bn rn bn rn
+{ rd rn rn rn rn rn rn rn rn
+{ rn bn rn bn rn bn rn bn rn
+{ rd rn rn rn rn rn rn rn rn
+{ rn bn rn bn rn bn rn bn rn
+{ rn rn rn rn rn rn rn rn rn
+{ rn bn rn bn rn bn rn bn rn
+{ rn rn rn rn rn rn rn rn rn
