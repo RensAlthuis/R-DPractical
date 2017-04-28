@@ -41,6 +41,7 @@ public class Level {
         finish  = level.finish;
         tiles   = level.tiles;
         last.add(current);
+        ((Road)tiles[0][0]).onRoute = true;
     }
 
     // bedoelt voor als je zelf een nieuw level maakt

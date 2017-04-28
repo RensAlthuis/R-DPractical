@@ -1,4 +1,46 @@
-name: Hill1
+name: Dot1
+size: 9 9
+start: 0 0
+end: 8 8
+{ rd rd rd rd rd rd rd rd rd
+{ rn bn rn bn rn bn rn bn rd
+{ rd rd rd rd rd rd rd rd rd
+{ rd bn rn bn rn bn rn bn rn
+{ rd rd rd rd rd rd rd rd rd
+{ rn bn rn bn rn bn rn bn rd
+{ rd rd rd rd rd rd rd rd rd
+{ rd bn rn bn rn bn rn bn rn
+{ rd rd rd rd rd rd rd rd rd
+
+name: Dot2
+size: 9 9
+start: 0 0
+end: 8 8
+{ rn rn rd rn rn rn rn rn rn
+{ rn bn rd bn rn bn rn bn rn
+{ rn rn rd rn rd rn rn rn rn
+{ rn bn rn bn rn bn rn bn rn
+{ rn rn rn rn rd rn rd rn rn
+{ rn bn rd bn rn bn rn bn rn
+{ rn rn rn rn rn rn rd rn rd
+{ rn bn rn bn rn bn rn bn rd
+{ rn rn rn rn rn rn rn rn rd
+
+name: Dot3
+size: 9 9
+start: 0 0
+end: 8 8
+{ rn rn rd rn rd rn rd rn rd
+{ rn bn rd bn rn bn rn bn rd
+{ rn rn rn rn rn rn rn rn rd
+{ rn bn rn bn rn bn rn bn rn
+{ rd rn rd rn rd rn rd rn rd
+{ rd bn rd bn rn bn rn bn rn
+{ rd rn rn rn rn rn rd rn rd
+{ rn bn rn bn rn bn rn bn rd
+{ rd rd rn rd rn rd rd rd rd
+
+name: Dot4
 size: 9 9
 start: 0 0
 end: 8 8
@@ -12,7 +54,7 @@ end: 8 8
 { rn bn rn bn rn bn rn bn rn
 { rn rd rn rn rn rd rn rn rn
 
-name: Hill2
+name: Dot5
 size: 9 9
 start: 0 0
 end: 8 8
@@ -25,3 +67,113 @@ end: 8 8
 { rn rn rn rn rn rn rn rn rn
 { rn bn rn bn rn bn rn bn rn
 { rn rn rn rn rn rn rn rn rn
+
+name: Dot6
+size: 9 9
+start: 0 0
+end: 8 8
+{ rn rn rd rn rn rn rd rn rn
+{ rn bn rn bn rn bn rn bn rd
+{ rn rn rd rn rd rn rd rn rn
+{ rn bn rn bn rn bn rn bn rn
+{ rn rn rn rn rn rn rn rn rn
+{ rd bn rn bn rn bn rn bn rd
+{ rn rd rd rn rd rn rd rn rn
+{ rn bn rn bn rn bn rn bn rn
+{ rn rn rn rn rn rn rn rn rn
+
+name: Dot7
+size: 9 9
+start: 0 0
+end: 8 8
+{ rn rd rd rn rn rn rd rn rn
+{ rn bn rn bn rn bn rn bn rd
+{ rn rn rd rn rd rd rd rn rn
+{ rn bn rn bn rn bn rn bn rn
+{ rn rn rn rn rd rn rn rn rd
+{ rd bn rn bn rn bn rn bn rd
+{ rn rn rn rn rd rn rd rn rn
+{ rn bn rn bn rn bn rn bn rn
+{ rd rn rd rn rd rn rd rn rn
+
+name: Dot8
+size: 9 9
+start: 0 0
+end: 8 8
+{ rn rn rd rn rd rn rd rn rd
+{ rn bn rn bn rn bn rn bn rd
+{ rn rn rd rn rd rn rd rn rn
+{ rn bn rn bn rd bn rn bn rn
+{ rd rn rd rn rd rn rd rn rd
+{ rd bn rd bn rn bn rn bn rd
+{ rn rn rd rn rd rn rn rn rd
+{ rd bn rn bn rn bn rn bn rn
+{ rn rn rd rn rd rn rd rn rn
+
+name: Hill1
+size: 9 9
+start: 0 0
+end: 8 8
+{ rn rn rn rn rn rn rn rn rn
+{ rn bh 1 rn bh 1 rn bh 1 rn bh 2 rn
+{ rn rn rn rn rn rn rn rn rn
+{ rn bn rn bn rn bn rn bh 1 rn
+{ rd rn rn rn rn rn rn rn rn
+{ rd bn rd bn rn bn rn bh 1 rn
+{ rn rn rn rn rn rn rn rn rn
+{ rn bn rn bn rn bn rn bh 1 rn
+{ rn rn rn rn rn rn rn rn rn
+
+name: Hill2
+size: 9 9
+start: 0 0
+end: 8 8
+{ rn rn rn rn rn rn rn rn rn
+{ rn bh 2 rn bh 2 rn bh 2 rn bh 2 rn
+{ rn rn rn rn rn rn rn rn rn
+{ rn bh 2 rn bh 2 rn bh 1 rn bh 2 rn
+{ rn rn rn rn rn rn rn rn rn
+{ rn bh 2 rn bh 1 rn bh 2 rn bh 2 rn
+{ rn rn rn rn rn rn rn rn rn
+{ rn bh 2 rn bh 2 rn bh 2 rn bh 2 rn
+{ rn rn rn rn rn rn rn rn rn
+
+name: Hill3
+size: 9 9
+start: 0 0
+end: 8 8
+{ rn rn rn rn rn rn rn rn rn
+{ rn bh 2 rn bh 2 rn bh 2 rn bh 2 rn
+{ rn rn rn rn rn rn rn rn rn
+{ rn bh 2 rn bh 2 rn bh 2 rn bh 2 rn
+{ rd rn rn rn rn rn rn rn rn
+{ rd bh 2 rd bh 2 rn bh 2 rn bh 2 rn
+{ rn rn rn rn rn rn rn rn rn
+{ rn bh 2 rn bh 2 rn bh 2 rn bh 2 rn
+{ rn rn rn rn rn rn rn rn rn
+
+name: Hill4
+size: 9 9
+start: 0 0
+end: 8 8
+{ rn rn rn rn rn rn rn rn rn
+{ rn bh 2 rn bh 2 rn bh 2 rn bh 2 rn
+{ rn rn rn rn rn rn rn rn rn
+{ rn bh 2 rn bh 2 rn bh 2 rn bh 2 rn
+{ rd rn rn rn rn rn rn rn rn
+{ rd bh 2 rd bh 2 rn bh 2 rn bh 2 rn
+{ rn rn rn rn rn rn rn rn rn
+{ rn bh 2 rn bh 2 rn bh 2 rn bh 2 rn
+{ rn rn rn rn rn rn rn rn rn
+
+
+
+
+
+
+
+
+
+
+
+

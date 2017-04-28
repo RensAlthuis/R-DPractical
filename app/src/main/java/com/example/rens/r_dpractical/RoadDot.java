@@ -6,6 +6,7 @@ public class RoadDot extends Road {
 
     @Override
     public boolean isCorrect(Tile[][] tiles, Pos size, int x, int y) {
+        Log.d("AAAAAAA", x + " " + y + " " + onRoute);
         return onRoute;
     }
 }
