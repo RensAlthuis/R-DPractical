@@ -53,4 +53,12 @@ public class Pos {
     public Pos clone(){
         return new Pos(this.x,this.y);
     }
+
+    public Pos toDrawCoord(){
+        return new Pos(x/2,y/2);
+    }
+
+    public Pos toBoardCoord(){
+        return new Pos(x*2,y*2);
+    }
 }

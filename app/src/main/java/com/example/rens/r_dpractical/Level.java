@@ -1,16 +1,28 @@
 package com.example.rens.r_dpractical;
 
+import android.content.Context;
+import android.util.Log;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Vector;
+
+import static com.example.rens.r_dpractical.Shortcuts.bh;
+import static com.example.rens.r_dpractical.Shortcuts.bn;
+import static com.example.rens.r_dpractical.Shortcuts.rd;
+import static com.example.rens.r_dpractical.Shortcuts.rn;
 
 // dit is een level. hiervan kunnen er meerdere van worden opgeslagen zonder problemen, en kunnen aangeroepen worden door 'board' wanneer je ze wilt spelen
 public class Level {
 
-    final Tile[][] tiles;
-    final Pos size; // niet zozeer een ecte 'positie', maar dat werkt
-    private final Pos start;
-    private final Pos finish;
+    Tile[][] tiles;
+    Pos size; // niet zozeer een ecte 'positie', maar dat werkt
+    Pos start;
+    Pos finish;
 
-    Vector<Pos> last = new Vector<>(); // de vorige posities van de lijn (als cordinaten in tiles)
+    Vector<Pos> path = new Vector<>(); // de vorige posities van de lijn (als cordinaten in tiles)
     Pos current;  // de huidige positie van de lijn (als cordinaten in tiles)
 
     public boolean Sovable(){
@@ -27,62 +39,129 @@ public class Level {
         return true;
     }
 
-    // deze wordt alleen geimplimenteerd door 'Board', en past hopelijk het level zelf niet aan
-    Level(final Level level){
-        size    = level.size;
-        current = level.current;
-        start   = level.start;
-        finish  = level.finish;
-        tiles   = level.tiles;
-        reset(); // rare bug met draaien zorgt dat dit er (tijdelijk) inmoet. reset wel nogsteeds het hele level dus i'm not amused >:(
+    public Level(String fileName, String name, Context context){
+        try{
+            // loadFile
+            InputStream is = context.getAssets().open("levels.txt");
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+            String str;
+            int x = 0;
+            boolean nameFound = false;
+
+            //search through lines
+            while ((str = br.readLine()) != null) {
+
+                String[] words = str.split(" ");
+                //search for correct level
+                if (!nameFound) {
+                    if (words[0].equals("name:")) {
+                        nameFound = words[1].equals(name);
+                        Log.d("UDEBUG", words[1]);
+                    }
+                } else {
+
+                    if (words[0].equals("start:")) {
+                        start = new Pos(Integer.parseInt(words[1]), Integer.parseInt(words[2]));
+                        current = start;
+
+                    } else if (words[0].equals("end:")) {
+                        finish = new Pos(Integer.parseInt(words[1]), Integer.parseInt(words[2]));
+
+                    } else if (words[0].equals("size:")) {
+                        size = new Pos(Integer.parseInt(words[1]), Integer.parseInt(words[2]));
+                        tiles = new Tile[size.x][size.y];
+
+                    } else if (words[0].equals("{")) {
+                        for (int i = 0; i < words.length; i++) {
+                            Log.d("UDEBUG", "x: " + x + " y: " + i + "= " + words[i]);
+                            switch (words[i]) {
+                                case "bn":
+                                    tiles[x][i - 1] = bn();
+                                    break;
+                                case "bh":
+                                    tiles[x][i - 1] = bh(Integer.parseInt(words[++i]));
+                                    break;
+                                case "rn":
+                                    tiles[x][i - 1] = rn();
+                                    break;
+                                case "rd":
+                                    tiles[x][i - 1] = rd();
+                                    break;
+                            }
+
+                        }
+                        x++;
+                    }else if (str.equals("")){
+                        return;
+                    } else {
+                        throw new RuntimeException("ERROR: file is incorrect");
+                    }
+                }
+            }
+        } catch (IOException e){
+            Log.d("ERROR", e.toString());
+        }
     }
 
     // bedoelt voor als je zelf een nieuw level maakt
-    public Level(final Tile[][] board, final Pos start, final Pos finish) {
+    public Level(final Tile[][] board, final Pos start_, final Pos finish_) {
         size    = new Pos(board.length, board[0].length);
-        this.start  = start;
-        this.finish = finish;
+        start  = start_;
+        current = start;
+        finish = finish_;
         tiles   = board;
         if (!(start.fitsIn(size) && start.isCrossing() && finish.fitsIn(size) && finish.isCrossing() && wellTiled())) {
             throw new RuntimeException("ERROR: error creating board");
         }
     }
 
-    // haalt alle (onzichtbare) lijnstukken weg. Om een of andere reden is dit nodig voor wanneer je het scherm draait
-    private void reset(){
-        for(int i=0; i<size.x ; i++)
-            for(int j=0; j<size.y ; j++)
-                if(i%2==0 || j%2==0)
-                    ((Road)tiles[i][j]).onRoute = false;
-    }
+    // ga vanuit 'current' naar 'pos'
+    public void moveTo(Pos pos){
+        pos = pos.toBoardCoord();
 
-     // ga vanuit 'current' naar 'pos'
-     void moveTo(Pos pos){
         // de positie van het vorige kruispunt
+        Log.d("UDEBUG", "moving to pos: " + pos);
+        Log.d("UDEBUG", "path pos = " + getLastPos());
+
         Pos lastPos = null;
-        try{ lastPos = last.lastElement(); }
+        try{ lastPos = path.get(path.size()-2); }
         catch(Exception e){} // zodat als de vector leeg is lastPos gewoon null is (wat het zou moeten zijn, ipv crashen!! >:( )
 
         // als je klikt op de kruising waar je vandaan komt
         if(pos.equals(lastPos)){
-            walkOff(current);
-            walkOff(current.inBetween(lastPos));
+            Log.d("UDEBUG", "returning to last: " + pos);
 
-            last.remove(last.size()-1);
+            walkOff(current);
+            walkOff(current.inBetween(pos));
+
+            path.remove(path.size()-1);
             current = lastPos;
         }
-        // als je klikt op een kruising die 1) dichtbij is, 2) waar je niet al eerder hebt gelopen
-        else if(pos.isNeighbour(current) && !((Road)tiles[pos.x][pos.y]).onRoute){
-            walkOn(current.inBetween(pos));
+
+        // als je klikt op een kruising die 1) dichtbij is, 2) waar je niet al eerber hebt gelopen
+        else if(pos.isNeighbour(current) && !((Road)tiles[pos.x][pos.y]).onRoute /*!isOnRoute(pos)*/){
+            Log.d("UDEBUG", "this is a neighbour");
+
+            walkOn(pos.inBetween(current));
             walkOn(pos);
 
-            last.add(current);
+            path.add(pos);
             current = pos;
 
             if(current.equals(finish)){
-                // iets hier?
+                if(isCorrect()){
+                    Log.d("UDEBUG", "YOU WIN");
+                }else{
+                    Log.d("UDEBUG", "YOU LOOOOOOOSE");
+                }
             }
         }
+    }
+
+    public Pos getLastPos(){
+        try { return path.lastElement().toDrawCoord();}
+        catch (Exception e){return null; }
     }
 
     // zet een wegstuk 'aan'

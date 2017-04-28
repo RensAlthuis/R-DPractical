@@ -3,12 +3,11 @@ package com.example.rens.r_dpractical;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 
-import static com.example.rens.r_dpractical.Shortcuts.*;
+import static com.example.rens.r_dpractical.Shortcuts.bn;
+import static com.example.rens.r_dpractical.Shortcuts.rd;
+import static com.example.rens.r_dpractical.Shortcuts.rn;
 
 public class MainActivity extends Activity {
     final Activity mainActivity = this;
@@ -21,17 +20,17 @@ public class MainActivity extends Activity {
 
     // (x en y zijn hier gedraait: x gaat van boven naar beneden, y gaat van links naar rechts (overal anders precies andersom))
 
+
     private static final Tile[][] level1Tiles =
-            {{rn() , rn() , rn() , rn() , rn() , rd() , rn() , rn() , rn() },
+            {{rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() , rn() },
             { rn() , bn() , rn() , bn() , rn() , bn() , rd() , bn() , rn() },
-            { rd() , rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() },
+            { rn() , rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() },
             { rn() , bn() , rn() , bn() , rn() , bn() , rn() , bn() , rn() },
-            { rd() , rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() },
+            { rn() , rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() },
             { rn() , bn() , rd() , bn() , rn() , bn() , rd() , bn() , rn() },
-            { rd() , rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() },
+            { rn() , rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() },
             { rn() , bn() , rn() , bn() , rn() , bn() , rn() , bn() , rn() },
             { rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() , rn() }};
-    private static final Level level1 = new Level(level1Tiles, new Pos(0,0), new Pos(8,8));
 
     /******************************************************************************************/
 
@@ -39,6 +38,9 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu); // hoofdmenu
+
+        final Level level1 = new Level(level1Tiles, new Pos(0,0), new Pos(8,8));
+        final Level level2 = new Level("assets/levels.txt", "level2", this);
 
         // voor wat er gebeurt als je op de startknop drukt:
         ((Button)findViewById(R.id.StartButton)).setOnClickListener(new View.OnClickListener() {
