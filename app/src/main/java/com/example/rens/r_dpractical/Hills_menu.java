@@ -16,7 +16,7 @@ public class Hills_menu extends AppCompatActivity {
         setContentView(R.layout.activity_hills_menu);
 
         final Activity activity = this;
-        for(int i = 1; i < 8; i++){
+        for(int i = 1; i <= 8; i++){
             final String str = "Hill" + i;
             final int resID = getResources().getIdentifier(str,"id",getPackageName());
             Button b = (Button)findViewById(resID);

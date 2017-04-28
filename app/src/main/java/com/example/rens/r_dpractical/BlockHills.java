@@ -1,5 +1,7 @@
 package com.example.rens.r_dpractical;
 
+import android.util.Log;
+
 public class BlockHills extends Block {
     
     private final int neighbours;
@@ -19,6 +21,7 @@ public class BlockHills extends Block {
         if(((Road)tiles[x-1][y]).onRoute) current++;
         if(((Road)tiles[x][y+1]).onRoute) current++;
         if(((Road)tiles[x][y-1]).onRoute) current++;
+        Log.d("UDEBUG", x + " " + " " + y + " = " + current + ", " + (current == neighbours));
         return current == neighbours;
     }
 }

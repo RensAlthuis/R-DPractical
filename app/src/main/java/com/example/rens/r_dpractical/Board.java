@@ -30,6 +30,8 @@ public class Board extends Level{
             if(last.size() > 1) {
                 Log.d("UDEBUG", "returning to last: " + pos);
                 ((Road)tiles[pos.x][pos.y]).onRoute = false;
+                Pos road = current.inBetween(pos);
+                ((Road)tiles[road.x][road.y]).onRoute = false;
                 last.remove(last.size() - 1);
                 current = lastPos;
             }

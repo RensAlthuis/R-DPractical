@@ -37,7 +37,7 @@ end: 8 8
 { rd rn rd rn rd rn rd rn rd
 { rd bn rd bn rn bn rn bn rn
 { rd rn rn rn rn rn rd rn rd
-{ rn bn rn bn rn bn rn bn rd
+{ rn bn rn bn rn bn rn bn rn
 { rd rd rn rd rn rd rd rd rd
 
 name: Dot4
@@ -143,13 +143,13 @@ size: 9 9
 start: 0 0
 end: 8 8
 { rn rn rn rn rn rn rn rn rn
-{ rn bh 2 rn bh 2 rn bh 2 rn bh 2 rn
+{ rn bh 2 rn bn rn bn rn bn rn
 { rn rn rn rn rn rn rn rn rn
-{ rn bh 2 rn bh 2 rn bh 2 rn bh 2 rn
-{ rd rn rn rn rn rn rn rn rn
-{ rd bh 2 rd bh 2 rn bh 2 rn bh 2 rn
+{ rn bn rn bh 2 rn bn rn bh 1 rn
 { rn rn rn rn rn rn rn rn rn
-{ rn bh 2 rn bh 2 rn bh 2 rn bh 2 rn
+{ rn bn rn bn rn bh 2 rn bn rn
+{ rn rn rn rn rn rn rn rn rn
+{ rn bn rn bn rn bn rn bh 2 rn
 { rn rn rn rn rn rn rn rn rn
 
 name: Hill4
