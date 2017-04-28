@@ -44,10 +44,15 @@ public class MainActivity extends Activity {
         ((Button)findViewById(R.id.StartButton)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                /*
                 RelativeLayout game = new RelativeLayout(mainActivity);
                 game.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                game.addView(new drawPuzzle(mainActivity,level1));
-                setContentView(game); // laad de 5x5 grid
+
+                game.addView(new drawLevel(mainActivity,level1));
+                */
+
+                setContentView(new drawLevel(mainActivity,level1)); // laad de 5x5 grid
             }
         });
 

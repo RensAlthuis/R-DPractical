@@ -58,43 +58,14 @@ public class Board extends Level{
         return views;
     }
 
-    // ga vanuit 'current' naar 'pos'
-    private void moveTo(Pos pos){
-        // de positie van het vorige kruispunt
-        Pos lastPos = null;
-        try{ lastPos = last.lastElement(); }
-        catch(Exception e){} // zodat als de vector leeg is lastPos gewoon null is (wat het zou moeten zijn, ipv crashen!! >:( )
-
-        // als je klikt op de kruising waar je vandaan komt
-        if(pos.equals(lastPos)){
-            walkOff(current);
-            walkOff(current.inBetween(lastPos));
-
-            last.remove(last.size()-1);
-            current = lastPos;
-        }
-        // als je klikt op een kruising die 1) dichtbij is, 2) waar je niet al eerber hebt gelopen
-        else if(pos.isNeighbour(current) && !((Road)tiles[pos.x][pos.y]).onRoute){
-            walkOn(current.inBetween(pos));
-            walkOn(pos);
-
-            last.add(current);
-            current = pos;
-
-            if(current.equals(finish)){
-                // iets hier?
-            }
-        }
-    }
-
-    // zet een wegstuk 'aan'
-    private void walkOn(Pos pos){
+    @Override
+    protected void walkOn(Pos pos){
         ((Road)tiles[pos.x][pos.y]).onRoute = true;
         tilesView[pos.x][pos.y].setBackgroundColor(0xFFFFFFFF);
     }
 
-    // zet een wegstuk 'uit'
-    private void walkOff(Pos pos){
+    @Override
+    protected void walkOff(Pos pos){
         ((Road)tiles[pos.x][pos.y]).onRoute = false;
         tilesView[pos.x][pos.y].setBackgroundColor(0xFF000000);
     }
