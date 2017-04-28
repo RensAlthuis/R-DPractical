@@ -1,14 +1,16 @@
 package com.example.rens.r_dpractical;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.app.Activity;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import static com.example.rens.r_dpractical.Shortcuts.*;
 
-public final class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     final Activity mainActivity = this;
 
     /******************************************************************************************/
@@ -34,7 +36,7 @@ public final class MainActivity extends AppCompatActivity {
     /******************************************************************************************/
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu); // hoofdmenu
 
@@ -42,9 +44,12 @@ public final class MainActivity extends AppCompatActivity {
         ((Button)findViewById(R.id.StartButton)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setContentView(R.layout.activity_game); // laat de 5x5 grid
-                Board board = new Board(mainActivity,level1); // activeert level 1
+                RelativeLayout game = new RelativeLayout(mainActivity);
+                game.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                game.addView(new drawPuzzle(mainActivity,level1));
+                setContentView(game); // laad de 5x5 grid
             }
         });
+
     }
 }

@@ -4,6 +4,8 @@ package com.example.rens.r_dpractical;
 public class Pos {
     public int x;
     public int y;
+
+    public Pos(){}
     
     public Pos(int x, int y){
         this.x = x;
