@@ -52,11 +52,6 @@ public class drawPuzzle extends View {
 
     }
 
-    public drawPuzzle(Context context, AttributeSet attrs)
-    {
-        this(context, attrs, null);
-    }
-
     public drawPuzzle(Context context, AttributeSet attrs, Board mBoard) {
         super(context, attrs);
         selectedCircle.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -169,6 +164,7 @@ public class drawPuzzle extends View {
                     px -= hill1.getWidth()/2;
                     py -= hill1.getHeight()/2;
                     BlockHills block = (BlockHills) board.tiles[a][b];
+                    Log.d("UDEBUG", "SDKLJFLSDJF");
                     switch(block.getNeighbours()){
                         case 1:
 
@@ -181,6 +177,7 @@ public class drawPuzzle extends View {
                             canvas.drawBitmap(hill3,px,py,null);
                             break;
                     }
+                }else{
                 }
             }
         }

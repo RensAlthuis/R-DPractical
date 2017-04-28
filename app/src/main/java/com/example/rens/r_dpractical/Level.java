@@ -87,18 +87,25 @@ public class Level {
                         tiles = new Tile[size.x][size.y];
 
                     } else if (words[0].equals("{")) {
+                        int y = 0;
                         for (int i = 0; i < words.length; i++) {
-                            Log.d("UDEBUG", "x: " + x + " y: " + i + "= " + words[i]);
+
+                            Log.d("UDEBUG", "x: " + x + " y: " + y + "= " + words[i]);
                             if (words[i].equals("bn")) {
-                                tiles[x][i-1] = bn();
+                                tiles[x][y] = bn();
                             } else if (words[i].equals("bh")) {
-                                tiles[x][i-1] = bh(Integer.parseInt(words[++i]));
+                                i++;
+                                tiles[x][y] = bh(Integer.parseInt(words[i]));
+                                Log.d("UDEBUG", "BOE " + tiles[x][y]);
 
                             } else if (words[i].equals("rn")) {
-                                tiles[x][i-1] = rn();
+                                tiles[x][y] = rn();
                             } else if (words[i].equals("rd")) {
-                                tiles[x][i-1] = rd();
+                                tiles[x][y] = rd();
+                            }else{
+                                y--;
                             }
+                            y++;
 
                         }
                         x++;
