@@ -25,4 +25,3 @@ end: 8 8
 { rn rn rn rn rn rn rn rn rn
 { rn bn rn bn rn bn rn bn rn
 { rn rn rn rn rn rn rn rn rn
-

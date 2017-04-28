@@ -88,21 +88,22 @@ public class Level {
 
                     } else if (words[0].equals("{")) {
                         for (int i = 0; i < words.length - 1; i++) {
-                            Log.d("UDEBUG", words[i]);
+                            Log.d("UDEBUG", "x: " + x + " y: " + i + "= " + words[i]);
                             if (words[i].equals("bn")) {
-                                tiles[x][i] = bn();
+                                tiles[x][i-1] = bn();
                             } else if (words[i].equals("bh")) {
-                                tiles[x][i] = bh(Integer.parseInt(words[++i]));
+                                tiles[x][i-1] = bh(Integer.parseInt(words[++i]));
 
                             } else if (words[i].equals("rn")) {
-                                tiles[x][i] = rn();
+                                tiles[x][i-1] = rn();
                             } else if (words[i].equals("rd")) {
-                                tiles[x][i] = rd();
+                                tiles[x][i-1] = rd();
                             }
+
                         }
                         x++;
                     }else if (str.equals("")){
-
+                        return;
                     } else {
                         throw new RuntimeException("ERROR: file is incorrect");
                     }
