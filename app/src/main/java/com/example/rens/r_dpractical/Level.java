@@ -1,13 +1,22 @@
 package com.example.rens.r_dpractical;
 
+import android.content.Context;
+import android.util.Log;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Vector;
+
+import static com.example.rens.r_dpractical.Shortcuts.*;
 
 // dit is een level. hiervan kunnen er meerdere van worden opgeslagen zonder problemen, en kunnen aangeroepen worden door 'board' wanneer je ze wilt spelen
 public class Level {
 
-    final Tile[][] tiles;
-    final Pos size; // niet zozeer een ecte 'positie', maar dat werkt
-    final Pos finish;
+    Tile[][] tiles;
+    Pos size; // niet zozeer een ecte 'positie', maar dat werkt
+    Pos finish;
     public Vector<Pos> last = new Vector<>(); // de vorige posities van de lijn
     Pos current;  // de huidige positie van de lijn
 
@@ -32,7 +41,6 @@ public class Level {
         finish  = level.finish;
         tiles   = level.tiles;
         last.add(current);
-        reset(); // rare bug met draaien zorgt dat dit er (tijdelijk) inmoet. reset wel nogsteeds het hele level dus i'm not amused >:(
     }
 
     // bedoelt voor als je zelf een nieuw level maakt
@@ -46,12 +54,64 @@ public class Level {
         }
     }
 
-    // haalt alle (onzichtbare) lijnstukken weg. Om een of andere reden is dit nodig voor wanneer je het scherm draait
-    private void reset(){
-        for(int i=0; i<size.x ; i++)
-            for(int j=0; j<size.y ; j++)
-                if(i%2==0 || j%2==0)
-                    ((Road)tiles[i][j]).onRoute = false;
+    public Level(String fileName, String name, Context context){
+        try{
+            // loadFile
+            InputStream is = context.getAssets().open("levels.txt");
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+            String str;
+            int x = 0;
+            boolean nameFound = false;
+
+            //search through lines
+            while ((str = br.readLine()) != null) {
+
+                String[] words = str.split(" ");
+                //search for correct level
+                if (!nameFound) {
+                    if (words[0].equals("name:")) {
+                        nameFound = words[1].equals(name);
+                        Log.d("UDEBUG", words[1]);
+                    }
+                } else {
+
+                    if (words[0].equals("start:")) {
+                        current = new Pos(Integer.parseInt(words[1]), Integer.parseInt(words[2]));
+
+                    } else if (words[0].equals("end:")) {
+                        finish = new Pos(Integer.parseInt(words[1]), Integer.parseInt(words[2]));
+
+                    } else if (words[0].equals("size:")) {
+                        size = new Pos(Integer.parseInt(words[1]), Integer.parseInt(words[2]));
+                        tiles = new Tile[size.x][size.y];
+
+                    } else if (words[0].equals("{")) {
+                        for (int i = 0; i < words.length - 1; i++) {
+                            Log.d("UDEBUG", words[i]);
+                            if (words[i].equals("bn")) {
+                                tiles[x][i] = bn();
+                            } else if (words[i].equals("bh")) {
+                                tiles[x][i] = bh(Integer.parseInt(words[++i]));
+
+                            } else if (words[i].equals("rn")) {
+                                tiles[x][i] = rn();
+                            } else if (words[i].equals("rd")) {
+                                tiles[x][i] = rd();
+                            }
+                        }
+                        x++;
+                    }else if (str.equals("")){
+
+                    } else {
+                        throw new RuntimeException("ERROR: file is incorrect");
+                    }
+                }
+            }
+        } catch (IOException e){
+            Log.d("ERROR", e.toString());
+        }
+
     }
 
     /**

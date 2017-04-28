@@ -30,7 +30,6 @@ public final class MainActivity extends AppCompatActivity {
             { rd() , rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() },
             { rn() , bn() , rn() , bn() , rn() , bn() , rn() , bn() , rn() },
             { rn() , rd() , rn() , rn() , rn() , rd() , rn() , rn() , rn() }};
-    private static final Level level1 = new Level(level1Tiles, new Pos(0,0), new Pos(8,8));
 
     /******************************************************************************************/
 
@@ -41,7 +40,9 @@ public final class MainActivity extends AppCompatActivity {
 
 
         final Level level1 = new Level(level1Tiles, new Pos(0,0), new Pos(8,8));
-        final Board board = new Board(this, level1);
+        final Level level2 = new Level("assets/levels.txt", "level2", this);
+
+        final Board board = new Board(this, level2);
         final drawPuzzle canvas = new drawPuzzle(this, board);
 
         // voor wat er gebeurt als je op de startknop drukt:
