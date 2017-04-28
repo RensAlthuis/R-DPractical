@@ -73,7 +73,7 @@ public class Level {
                 if (!nameFound) {
                     if (words[0].equals("name:")) {
                         nameFound = words[1].equals(name);
-                        Log.d("UDEBUG", words[1]);
+                        Log.d("NEWLEVEL", words[1]);
                     }
                 } else {
 

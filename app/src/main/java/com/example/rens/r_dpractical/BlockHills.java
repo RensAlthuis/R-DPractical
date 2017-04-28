@@ -21,7 +21,7 @@ public class BlockHills extends Block {
         if(((Road)tiles[x-1][y]).onRoute) current++;
         if(((Road)tiles[x][y+1]).onRoute) current++;
         if(((Road)tiles[x][y-1]).onRoute) current++;
-        Log.d("UDEBUG", x + " " + " " + y + " = " + current + ", " + (current == neighbours));
+        Log.d("BLOCKTEST", x + " " + " " + y + " = " + current + ", " + (current == neighbours));
         return current == neighbours;
     }
 }
