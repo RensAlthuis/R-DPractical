@@ -7,48 +7,33 @@
     android:background="@drawable/backsplash"
     tools:context="com.example.rens.r_dpractical.victory_screen">
 
-    <EditText
-        android:id="@+id/editText2"
-        style="@android:style/Widget.AutoCompleteTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:singleLine="true"
-        android:text="Good Job!"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="@android:color/background_dark"
-        android:textIsSelectable="false"
-        android:textSize="36sp"
-        android:textStyle="bold"
+    <ImageButton
+        android:id="@+id/VictoryBack"
+        android:layout_width="86dp"
+        android:layout_height="47dp"
+        android:layout_column="3"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_row="0"
+        android:background="@color/colorAccent"
+        android:src="@drawable/arrow"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.858" />
+        app:layout_constraintVertical_bias="0.128"
+        app:layout_constraintTop_toBottomOf="@+id/victoryText" />
 
-    <EditText
-        android:id="@+id/editText"
-        style="@android:style/Widget.AutoCompleteTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:singleLine="true"
-        android:text="Good Job!"
-        android:textAlignment="center"
-        android:textAllCaps="false"
-        android:textColor="@color/colorAccent"
-        android:textIsSelectable="false"
-        android:textSize="35sp"
-        android:textStyle="bold"
+    <ImageView
+        android:id="@+id/victoryText"
+        android:layout_width="330dp"
+        android:layout_height="97dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintVertical_bias="0.855" />
+        app:layout_constraintVertical_bias="0.779"
+        app:srcCompat="@drawable/gj" />
 
 </android.support.constraint.ConstraintLayout>

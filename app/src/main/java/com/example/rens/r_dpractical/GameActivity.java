@@ -13,7 +13,7 @@ import android.widget.ImageButton;
 import static com.example.rens.r_dpractical.Shortcuts.*;
 
 public final class GameActivity extends Activity {
-    final Activity gameActivity = this;
+    final GameActivity gameActivity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +50,9 @@ public final class GameActivity extends Activity {
 
     }
 
-
-
-
-
+    public void win(){
+        Intent intent = new Intent(this, victory_screen.class);
+        startActivity(intent);
+        finish();
+    }
 }

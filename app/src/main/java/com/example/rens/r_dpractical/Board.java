@@ -8,10 +8,10 @@ import android.widget.ImageView;
 // dit is het active spelbord. hier wordt dus een level geladen en die kan alleen hier ook bespeeld worden.
 public class Board extends Level{
 
-    private final Activity activity; // de huidige activiteit
+    private final GameActivity activity; // de huidige activiteit
 //    private final ImageView[][] tilesView; // om alles een plaatje te geven
 
-    public Board(final Activity current_activity, Level level){
+    public Board(final GameActivity current_activity, Level level){
         super(level);
         activity  = current_activity;
 
@@ -56,6 +56,7 @@ public class Board extends Level{
                 }
                 if(win){
                     Log.d("UDEBUG", "YOU WIN");
+                    activity.win();
                 }else{
                     Log.d("UDEBUG", "YOU LOOOOOOOSE");
                 }
