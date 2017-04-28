@@ -1,11 +1,13 @@
 package com.example.rens.r_dpractical;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.app.Activity;
 import android.widget.Button;
+import android.widget.FrameLayout;
 
 import static com.example.rens.r_dpractical.Shortcuts.*;
 
@@ -38,7 +40,6 @@ public final class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu); // hoofdmenu
 
-
         final Level level1 = new Level(level1Tiles, new Pos(0,0), new Pos(8,8));
         final Level level2 = new Level("assets/levels.txt", "level2", this);
 
@@ -50,9 +51,13 @@ public final class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                setContentView(canvas);
+                Intent intent = new Intent(mainActivity, GameActivity.class);
+                startActivity(intent);
+
             }
         });
+
+
     }
 }
 

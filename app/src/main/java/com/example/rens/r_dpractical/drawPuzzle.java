@@ -45,14 +45,19 @@ public class drawPuzzle extends View {
     private int sizex = 5;
     private int sizey = 5;
 
-    public drawPuzzle(Context context, Board board)
+    public drawPuzzle(Context context, Board mBoard)
     {
-        this(context, null, board);
+        this(context, null, mBoard);
 
 
     }
 
-    public drawPuzzle(Context context, AttributeSet attrs, Board _board) {
+    public drawPuzzle(Context context, AttributeSet attrs)
+    {
+        this(context, attrs, null);
+    }
+
+    public drawPuzzle(Context context, AttributeSet attrs, Board mBoard) {
         super(context, attrs);
         selectedCircle.setStyle(Paint.Style.FILL_AND_STROKE);
         selectedCircle.setColor(Color.WHITE);
@@ -64,10 +69,12 @@ public class drawPuzzle extends View {
         activeLine.setStrokeWidth(37);
         linePaint.setStyle(Paint.Style.STROKE);
         linePaint.setStrokeWidth(45);
-        board = _board;
+
+        board = mBoard;
         hill1 = BitmapFactory.decodeResource(getResources(),R.drawable.single_hill);
         hill2 = BitmapFactory.decodeResource(getResources(),R.drawable.double_hill);
         hill3 = BitmapFactory.decodeResource(getResources(),R.drawable.triple_hill);
+
     }
 
     @Override
@@ -213,5 +220,10 @@ public class drawPuzzle extends View {
         }
 
         return true;
+    }
+
+    public void setBoard(Board mBoard)
+    {
+        board = mBoard;
     }
 }
